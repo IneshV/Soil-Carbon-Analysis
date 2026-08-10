@@ -1,0 +1,20 @@
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# RaCA source and derived datasets (never publish)
+raw_data/[Rr][Aa][Cc][Aa]*
+GEE_ready_datasets/[Rr][Aa][Cc][Aa]*
+**/[Rr][Aa][Cc][Aa]*.csv
+**/[Rr][Aa][Cc][Aa]*.xlsx
+**/[Rr][Aa][Cc][Aa]*.xls
+**/[Rr][Aa][Cc][Aa]*.parquet
+**/[Rr][Aa][Cc][Aa]*.feather
+**/[Rr][Aa][Cc][Aa]*.pkl
+
+# Notebook and Python caches
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+
