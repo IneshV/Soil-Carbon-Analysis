@@ -1,7 +1,9 @@
 /************************************************************
- MASTER FIXED-DATE CONUS COVARIATE STACK
+ OBSERVATION-ALIGNED POINT COVARIATE STACK (250 M)
  ------------------------------------------------------------
- Prediction / extraction date: controlled by OBS_DATE_STR
+ Covariate cutoff date: controlled by OBS_DATE_STR. Only input rows whose
+ covariate_cutoff_date equals that value are sampled. Every dynamic window
+ ends before the cutoff date (Earth Engine filterDate end dates are exclusive).
 
  Google Cloud Storage destination:
    Bucket: conus_grid_covariates
@@ -91,11 +93,14 @@ var POINT_EXPORT_BASENAME =
 var POINT_EXPORT_DESCRIPTION =
   INPUT_DATASET_NAME + '_ALL_covariates_unique_points_' + OBS_DATE_TAG + '_Drive';
 var NODATA_VALUE = -9999;
+var DATE_PROPERTY = 'covariate_cutoff_date';
 
 // Rebuild point geometry explicitly from the CSV columns. This works even
 // when the uploaded table was not assigned geometry during asset ingestion.
-var inputPoints = ee.FeatureCollection(table)
-  .distinct(['lat', 'lon'])
+var allInputRows = ee.FeatureCollection(table);
+var inputPoints = allInputRows
+  .filter(ee.Filter.eq(DATE_PROPERTY, OBS_DATE_STR))
+  .distinct(['gee_point_id'])
   .map(function(feature) {
   feature = ee.Feature(feature);
   var lon = ee.Number.parse(ee.String(feature.get('lon')));
@@ -103,7 +108,8 @@ var inputPoints = ee.FeatureCollection(table)
   return feature.setGeometry(ee.Geometry.Point([lon, lat]));
   });
 
-print('Unique input point count:', inputPoints.size());
+print('All uploaded point/date rows:', allInputRows.size());
+print('Rows selected for cutoff ' + OBS_DATE_STR + ':', inputPoints.size());
 print('First input point:', inputPoints.first());
 Map.addLayer(inputPoints, {color: 'yellow'}, 'Unique input points', false);
 
@@ -130,14 +136,21 @@ var CLIM10_END = ee.Date.fromYMD(
 );
 
 // Spring window for Tmin_spring_min.
-var SPRING_START = ee.Date.fromYMD(
+var CURRENT_SPRING_END = ee.Date.fromYMD(OBS_YEAR, 6, 1);
+var SPRING_YEAR = ee.Number(ee.Algorithms.If(
+  OBS_DATE.millis().gte(CURRENT_SPRING_END.millis()),
   OBS_YEAR,
+  OBS_YEAR.subtract(1)
+));
+
+var SPRING_START = ee.Date.fromYMD(
+  SPRING_YEAR,
   3,
   1
 );
 
 var SPRING_END = ee.Date.fromYMD(
-  OBS_YEAR,
+  SPRING_YEAR,
   6,
   1
 );
@@ -992,23 +1005,22 @@ print(
 // 7) STATIC SOIL, GEOLOGY, AND LAND COVER
 // ============================================================
 
-// Choose the most appropriate NLCD year for the extraction date.
-// This follows the same bins used in the earlier point script.
+// Choose the latest NLCD release that does not occur after the cutoff date.
 var NLCD_YEAR = ee.Number(
   ee.Algorithms.If(
-    OBS_YEAR.lte(2003),
+    OBS_YEAR.lt(2006),
     2001,
 
     ee.Algorithms.If(
-      OBS_YEAR.lte(2008),
+      OBS_YEAR.lt(2011),
       2006,
 
       ee.Algorithms.If(
-        OBS_YEAR.lte(2013),
+        OBS_YEAR.lt(2016),
         2011,
 
         ee.Algorithms.If(
-          OBS_YEAR.lte(2018),
+          OBS_YEAR.lt(2019),
           2016,
           2019
         )
@@ -2352,6 +2364,7 @@ print(
 var burnCollection = ee.ImageCollection(
   'MODIS/061/MCD64A1'
 )
+  .filterDate(FIVE_YEAR_START, OBS_DATE)
   .select('BurnDate');
 
 var fireYears = ee.List.sequence(

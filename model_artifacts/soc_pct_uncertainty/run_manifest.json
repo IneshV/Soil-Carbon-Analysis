@@ -1,0 +1,113 @@
+{
+  "target": "absolute SOC percent error from grouped OOF point predictions",
+  "training_dataset": "RaCA only",
+  "external_evaluation_dataset": "DSP4SH; never used for fitting or calibration",
+  "nominal_coverage": 0.9,
+  "method": "grouped cross-fit heteroscedastic absolute-error XGBoost plus conformal multiplier",
+  "calibration_multiplier": 2.239346071135812,
+  "finite_sample_quantile_level": 0.9000583544057577,
+  "training_rows": 25705,
+  "training_sites": 6109,
+  "features": [
+    "z_mid",
+    "ASPECT",
+    "EL",
+    "HAND",
+    "TWI",
+    "SOIL_TEXTURE",
+    "clay_pct",
+    "lithology_class",
+    "LRR_group",
+    "LULC",
+    "LU_scraped",
+    "NLCD_name",
+    "AI",
+    "EVI_mean",
+    "SF",
+    "VPD_kPa",
+    "VPD_mean_10y",
+    "VPD_max_10y",
+    "VPD_gs_mean_10y",
+    "ppt_annual_mean_10y",
+    "ET_sum",
+    "EVI_a1",
+    "EVI_a2",
+    "EVI_b2",
+    "EVI_beta0",
+    "NDVI_b1",
+    "NDVI_beta0",
+    "NDWI_b1",
+    "NDWI_beta0",
+    "T2M_b1",
+    "VPD_a1_10y",
+    "VPD_b1_10y",
+    "VPD_beta0_10y",
+    "ppt_b1_10y",
+    "ET_a1",
+    "ET_beta0",
+    "point_prediction"
+  ],
+  "categorical_features": [
+    "LRR_group",
+    "LU_scraped",
+    "NLCD_name"
+  ],
+  "xgboost_params": {
+    "objective": "reg:squarederror",
+    "eval_metric": "rmse",
+    "tree_method": "hist",
+    "learning_rate": 0.03,
+    "max_depth": 4,
+    "min_child_weight": 5,
+    "subsample": 0.75,
+    "colsample_bytree": 0.8,
+    "lambda": 8.0,
+    "alpha": 0.1
+  },
+  "num_boost_round": 350,
+  "metrics": [
+    {
+      "dataset": "RaCA grouped cross-fit \u2014 rows",
+      "n": 25705,
+      "coverage_90": 0.9000972573429294,
+      "mean_interval_width": 2.293061911110942,
+      "median_interval_width": 1.6768760558022786,
+      "mean_lower": 0.14885447226136367,
+      "mean_upper": 2.4419163833723054
+    },
+    {
+      "dataset": "RaCA grouped cross-fit \u2014 250m pixel \u00d7 10cm depth",
+      "n": 24324,
+      "coverage_90": 0.9013731294195033,
+      "mean_interval_width": 2.225677544502604,
+      "median_interval_width": 1.626389652576292,
+      "mean_lower": 0.14201883468284696,
+      "mean_upper": 2.3676963791854506
+    },
+    {
+      "dataset": "DSP4SH external \u2014 rows",
+      "n": 1586,
+      "coverage_90": 0.8776796973518285,
+      "mean_interval_width": 2.079122689090899,
+      "median_interval_width": 1.5714898109436035,
+      "mean_lower": 0.20294604061329366,
+      "mean_upper": 2.282068729704193
+    },
+    {
+      "dataset": "DSP4SH external \u2014 250m pixel \u00d7 10cm depth",
+      "n": 684,
+      "coverage_90": 0.8508771929824561,
+      "mean_interval_width": 1.7256103331572288,
+      "median_interval_width": 1.3784774441688281,
+      "mean_lower": 0.1252176033870522,
+      "mean_upper": 1.8508279365442806
+    }
+  ],
+  "provenance": {
+    "raca": "/Users/ineshvytheswaran/iCloud Drive (Archive)/Desktop/Desktop - MacBook Air (407)/xia lab work/RaCA/final stuff/best_model/dataset2_feature_outputs/raca_use_dataset2_features.csv",
+    "dsp4sh": "/Users/ineshvytheswaran/iCloud Drive (Archive)/Desktop/Desktop - MacBook Air (407)/xia lab work/RaCA/final stuff/best_model/dataset2_feature_outputs/dsp_use_dataset2_features.csv",
+    "manifest": "/Users/ineshvytheswaran/iCloud Drive (Archive)/Desktop/Desktop - MacBook Air (407)/xia lab work/RaCA/final stuff/best_model/soc_pct_final_model/soc_pct_final_model_manifest.json"
+  },
+  "point_model_manifest": "/Users/ineshvytheswaran/iCloud Drive (Archive)/Desktop/Desktop - MacBook Air (407)/xia lab work/Final_Paper_Analysis/model_artifacts/soc_pct/run_manifest.json",
+  "xgboost_version": "3.4.0"
+}

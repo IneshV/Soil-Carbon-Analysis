@@ -1,0 +1,12 @@
+.git
+.gitignore
+raw_data
+GEE_ready_datasets
+paper_context
+code/*.ipynb
+code/Old_prediction_script
+model_artifacts/**/*.csv
+model_artifacts/soc_density
+model_artifacts/soc_density_uncertainty
+**/__pycache__
+**/.DS_Store

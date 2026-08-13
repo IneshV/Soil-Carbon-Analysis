@@ -1,0 +1,100 @@
+{
+  "target": "SOC_pct",
+  "training_rows": 25705,
+  "training_sites": 6109,
+  "external_rows": 1586,
+  "external_pedons": 268,
+  "features": [
+    "z_mid",
+    "ASPECT",
+    "EL",
+    "HAND",
+    "TWI",
+    "SOIL_TEXTURE",
+    "clay_pct",
+    "lithology_class",
+    "LRR_group",
+    "LULC",
+    "LU_scraped",
+    "NLCD_name",
+    "AI",
+    "EVI_mean",
+    "SF",
+    "VPD_kPa",
+    "VPD_mean_10y",
+    "VPD_max_10y",
+    "VPD_gs_mean_10y",
+    "ppt_annual_mean_10y",
+    "ET_sum",
+    "EVI_a1",
+    "EVI_a2",
+    "EVI_b2",
+    "EVI_beta0",
+    "NDVI_b1",
+    "NDVI_beta0",
+    "NDWI_b1",
+    "NDWI_beta0",
+    "T2M_b1",
+    "VPD_a1_10y",
+    "VPD_b1_10y",
+    "VPD_beta0_10y",
+    "ppt_b1_10y",
+    "ET_a1",
+    "ET_beta0"
+  ],
+  "categorical_features": [
+    "LRR_group",
+    "LU_scraped",
+    "NLCD_name"
+  ],
+  "soc_filter": "0 <= SOC_pct < 12.5",
+  "cv": "5-fold GroupKFold by rcasiteid",
+  "provenance": {
+    "raca": "/Users/ineshvytheswaran/iCloud Drive (Archive)/Desktop/Desktop - MacBook Air (407)/xia lab work/RaCA/final stuff/best_model/dataset2_feature_outputs/raca_use_dataset2_features.csv",
+    "dsp4sh": "/Users/ineshvytheswaran/iCloud Drive (Archive)/Desktop/Desktop - MacBook Air (407)/xia lab work/RaCA/final stuff/best_model/dataset2_feature_outputs/dsp_use_dataset2_features.csv",
+    "manifest": "/Users/ineshvytheswaran/iCloud Drive (Archive)/Desktop/Desktop - MacBook Air (407)/xia lab work/RaCA/final stuff/best_model/soc_pct_final_model/soc_pct_final_model_manifest.json"
+  },
+  "metrics": [
+    {
+      "dataset": "RaCA grouped OOF \u2014 rows",
+      "n": 25705,
+      "R2": 0.4982290504372473,
+      "RMSE": 1.208624358796691,
+      "MAE": 0.6529266127767565,
+      "Bias": -0.1560668137904925,
+      "Mean_observed": 1.3866018452783504,
+      "Mean_predicted": 1.230535031487858
+    },
+    {
+      "dataset": "RaCA grouped OOF \u2014 250m pixel \u00d7 10cm depth",
+      "n": 24324,
+      "R2": 0.5038475068200579,
+      "RMSE": 1.1770074755853155,
+      "MAE": 0.6294471592030065,
+      "Bias": -0.1508174589636377,
+      "Mean_observed": 1.3433408359991061,
+      "Mean_predicted": 1.1925233770354684
+    },
+    {
+      "dataset": "DSP4SH external \u2014 rows",
+      "n": 1586,
+      "R2": 0.599868037520529,
+      "RMSE": 0.9024043892559234,
+      "MAE": 0.5225545511313716,
+      "Bias": -0.26487518438999363,
+      "Mean_observed": 1.4786611694636629,
+      "Mean_predicted": 1.213785985073669
+    },
+    {
+      "dataset": "DSP4SH external \u2014 250m pixel \u00d7 10cm depth",
+      "n": 684,
+      "R2": 0.6279399480070582,
+      "RMSE": 0.6826616802907921,
+      "MAE": 0.4311215984660797,
+      "Bias": -0.27055999648380724,
+      "Mean_observed": 1.2173763393502803,
+      "Mean_predicted": 0.946816342866473
+    }
+  ],
+  "xgboost_version": "3.4.0"
+}
